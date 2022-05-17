@@ -8,13 +8,16 @@ public class ScreenRenderer : MonoBehaviour {
     [SerializeField] GameManager gameManager;
 
     List<Curve> curves = new List<Curve>();
-    Curve currCurve ;
 
-    public void OnMouseDown(){
-        if(gameManager.operation == Operations.NewCurve || currCurve == null){
+    public List<Curve> getCurveList(){
+        return curves;
+    }
+
+    public void OnMouseDown(){        
+        if(gameManager.operation == Operations.NewCurve || gameManager.currCurve == null){
             GameObject currCurveObj = Instantiate(curveObj, Vector3.zero, Quaternion.identity);
-            currCurve = currCurveObj.GetComponent<Curve>();
-            curves.Add(currCurve);
+            gameManager.currCurve = currCurveObj.GetComponent<Curve>();
+            curves.Add(gameManager.currCurve);
             gameManager.ChangeOperation("AddPoint");
         }
 
@@ -23,7 +26,7 @@ public class ScreenRenderer : MonoBehaviour {
             mouseWorldPos.Set(mouseWorldPos.x, mouseWorldPos.y, 0);
 
             point = Instantiate(point, mouseWorldPos, Quaternion.identity);
-            currCurve.AddPoint(point);
+            gameManager.currCurve.AddPoint(point);
         }
     }
 }

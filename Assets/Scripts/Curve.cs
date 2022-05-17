@@ -20,8 +20,12 @@ public class Curve : MonoBehaviour{
         bezierLine.positionCount = 0;
         bezierLine.startWidth = 0.23f;
         bezierLine.endWidth = 0.23f;
-        bezierLine.startColor = new Color(0,0,0);
-        bezierLine.endColor = new Color(0,0,0);
+        setColor(0,232,232);
+    }
+
+    public void setColor(int r, int g, int b){
+        bezierLine.startColor = new Color(r,g,b);
+        bezierLine.endColor = new Color(r,g,b);
     }
 
     public void AddPoint(GameObject point) {
