@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
     [SerializeField] ScreenRenderer screenRenderer;
     [SerializeField] Text operationText;
+    [SerializeField] Text evaluationNumberText;
 
     public Operations operation {get; private set;}
     [HideInInspector] public Curve currCurve;
@@ -31,6 +32,10 @@ public class GameManager : MonoBehaviour {
             NextCurve();
             operation = Operations.AddPoint;
             operationText.text = "Next Curve";
+        }
+        else if(op == "ChangeNumberEvaluations"){
+            int newNumber = int.Parse(evaluationNumberText.text);
+            currCurve.setNumberEvaluations(newNumber);
         }
     }
 

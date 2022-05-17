@@ -6,7 +6,8 @@ public class Curve : MonoBehaviour{
     List<GameObject> polygonalLines = new List<GameObject>();
     LineRenderer polygonalLine;
     LineRenderer bezierLine;
-    
+    int numeroAvaliacoes = 40;
+
     private void Awake() {
         polygonalLine = GetComponent<LineRenderer>();
 
@@ -16,7 +17,7 @@ public class Curve : MonoBehaviour{
         polygonalLine.positionCount = 0;
         polygonalLine.startWidth = 0.23f;
         polygonalLine.endWidth = 0.23f;
-        
+
         bezierLine.positionCount = 0;
         bezierLine.startWidth = 0.23f;
         bezierLine.endWidth = 0.23f;
@@ -26,6 +27,10 @@ public class Curve : MonoBehaviour{
     public void setColor(int r, int g, int b){
         bezierLine.startColor = new Color(r,g,b);
         bezierLine.endColor = new Color(r,g,b);
+    }
+
+    public void setNumberEvaluations(int numberEvaluations){
+        numeroAvaliacoes = numberEvaluations;
     }
 
     public void AddPoint(GameObject point) {
@@ -62,15 +67,15 @@ public class Curve : MonoBehaviour{
         
         curvePoints.Add(controlPointPos[0]);
         
-        for (int i = 0; i <= 40; i++) {
-            curvePoints.Add(GetDeCastlejauPoint((float)i/40f, controlPointPos));
+        for (int i = 0; i <= numeroAvaliacoes; i++) {
+            curvePoints.Add(GetDeCastlejauPoint((float)i/(float)numeroAvaliacoes, controlPointPos));
         }
-        
+
         curvePoints.Add(controlPointPos[controlPointPos.Count-1]);
 
         return curvePoints;
     }
-    
+
     private Vector2 GetDeCastlejauPoint(float t, List<Vector2> points){
         if (points.Count == 1) {
             return points[0];
