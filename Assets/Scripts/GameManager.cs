@@ -24,7 +24,9 @@ public class GameManager : MonoBehaviour {
             operationText.text = "Delete Point";
         }
         else if(op == "NewCurve"){
-            currCurve.setColor(0,0,0);
+            if(currCurve){
+                currCurve.setColor(0,0,0);
+            }
             operation = Operations.NewCurve;
             operationText.text = "New Curve";
         }
@@ -37,6 +39,10 @@ public class GameManager : MonoBehaviour {
             int newNumber = int.Parse(evaluationNumberText.text);
             currCurve.setNumberEvaluations(newNumber);
         }
+        else if(op == "DeleteCurve"){
+            operationText.text = "Delete Curve";
+            DeleteCurve();
+        }
     }
 
     public void NextCurve(){
@@ -46,7 +52,28 @@ public class GameManager : MonoBehaviour {
         if(curves.Count > 1){
             currCurve.setColor(0,0,0);
             currCurve = curves[(currCurvIndex+1) % curves.Count];
-            currCurve.setColor(0,232,232);
+        } else if(curves.Count == 1){
+            currCurve = curves[0];
+        } else{
+            currCurve = null;
+            return;
+        }
+        currCurve.setColor(0,232,232);
+    }
+
+    //TODO: resolver MissingReference quando clica na tela após deletar a última curva da tela
+    public void DeleteCurve(){
+        List<Curve> curves = screenRenderer.getCurveList();
+        int currCurvIndex = curves.IndexOf(currCurve);
+
+        curves.RemoveAt(currCurvIndex);
+        Destroy(currCurve.gameObject);
+        if(curves.Count >= 1){
+            ChangeOperation("NextCurve");
+        }
+        else {
+            currCurve = null;
+            ChangeOperation("NewCurve");
         }
     }
 }
