@@ -11,9 +11,11 @@ public class ScreenRenderer : MonoBehaviour {
     Curve currCurve ;
 
     public void OnMouseDown(){
-        if(currCurve == null){
+        if(gameManager.operation == Operations.NewCurve || currCurve == null){
             GameObject currCurveObj = Instantiate(curveObj, Vector3.zero, Quaternion.identity);
             currCurve = currCurveObj.GetComponent<Curve>();
+            curves.Add(currCurve);
+            gameManager.ChangeOperation("AddPoint");
         }
 
         if(gameManager.operation == Operations.AddPoint){

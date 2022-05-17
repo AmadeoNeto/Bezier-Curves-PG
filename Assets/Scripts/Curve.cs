@@ -58,12 +58,9 @@ public class Curve : MonoBehaviour{
         
         curvePoints.Add(controlPointPos[0]);
         
-        Debug.Log("Comecei");
         for (int i = 0; i <= 40; i++) {
             curvePoints.Add(GetDeCastlejauPoint((float)i/40f, controlPointPos));
-            // Debug.Log(curvePoints[curvePoints.Count-1]);
         }
-        Debug.Log("Terminei");
         
         curvePoints.Add(controlPointPos[controlPointPos.Count-1]);
 
@@ -77,8 +74,6 @@ public class Curve : MonoBehaviour{
             List<Vector2> points_curr = new List<Vector2>();
             for (int i = 0; i < points.Count - 1; i++) {
                 points_curr.Add(LinearInterpolation(t,points[i],points[i+1]));
-
-                if(Input.GetKeyDown(KeyCode.A)) Debug.Log(i + ": " + points_curr[i]);
             }
             return GetDeCastlejauPoint(t, points_curr);
         }

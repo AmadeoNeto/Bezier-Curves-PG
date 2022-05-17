@@ -9,18 +9,29 @@ public class Point : MonoBehaviour {
     }
 
     private void OnMouseDown() {
-        Drag();
+        DecideOperation();
     }
 
     private void OnMouseDrag() {
-        Drag();
+        DecideOperation();
+    }
+
+    public void DecideOperation(){
+        if(gameManager.operation == Operations.DragPoint){
+            Drag();
+        }
+        else if(gameManager.operation == Operations.DeletePoint){
+            DeletePoint();
+        }
     }
 
     public void Drag(){
-        if(gameManager.operation == Operations.DragPoint){
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mouseWorldPos.Set(mouseWorldPos.x, mouseWorldPos.y, 0);
-            transform.position = mouseWorldPos;
-        }
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos.Set(mouseWorldPos.x, mouseWorldPos.y, 0);
+        transform.position = mouseWorldPos;
+    }
+
+    public void DeletePoint(){
+
     }
 }

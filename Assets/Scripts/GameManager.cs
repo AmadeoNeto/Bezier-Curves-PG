@@ -10,5 +10,11 @@ public class GameManager : MonoBehaviour {
         else if(op == "DragPoint"){
             operation = Operations.DragPoint;
         }
+        else if(op == "DeletePoint"){
+            operation = Operations.DeletePoint;
+        }
+        else if(op == "NewCurve"){
+            operation = Operations.NewCurve;
+        }
     }
 }
