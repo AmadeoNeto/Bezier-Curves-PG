@@ -25,8 +25,8 @@ public class ScreenRenderer : MonoBehaviour {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mouseWorldPos.Set(mouseWorldPos.x, mouseWorldPos.y, 0);
 
-            point = Instantiate(point, mouseWorldPos, Quaternion.identity, gameManager.currCurve.gameObject.transform);
-            gameManager.currCurve.AddPoint(point);
+            GameObject pointObj = Instantiate(point, mouseWorldPos, Quaternion.identity, gameManager.currCurve.gameObject.transform);
+            gameManager.currCurve.AddPoint(pointObj);
         }
     }
 }
