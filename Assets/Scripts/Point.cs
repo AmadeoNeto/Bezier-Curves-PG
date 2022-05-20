@@ -3,7 +3,8 @@ using UnityEngine;
 public class Point : MonoBehaviour {
     [SerializeField] GameManager gameManager;
 
-    private void OnEnable() {
+    private void Start() {
+        //Acha o gamerManager no jogo e o guarda na var.
         GameObject managerObj = GameObject.FindWithTag("GameController");
         gameManager = managerObj.GetComponent<GameManager>();
     }

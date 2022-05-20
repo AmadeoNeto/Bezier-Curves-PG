@@ -14,17 +14,21 @@ public class Curve : MonoBehaviour{
         GameObject child = transform.GetChild(0).gameObject;
         bezierLine = child.GetComponent<LineRenderer>();
 
+        //Zera a qt de pontos que a linha da poligonal liga
         polygonalLine.positionCount = 0;
+        //Inicializa a largura da poligonal
         polygonalLine.startWidth = 0.23f;
         polygonalLine.endWidth = 0.23f;
 
+        //Inicaliza os mesmo valores que os acima mas para as linhas da Curva de Bezier
         bezierLine.positionCount = 0;
         bezierLine.startWidth = 0.23f;
         bezierLine.endWidth = 0.23f;
-        setColor(0,232,232);
+        setBezierColor(0,232,232); //Mudar a cor da da curva
     }
 
-    public void setColor(int r, int g, int b){
+    public void setBezierColor(int r, int g, int b){
+        //Muda a cor das linhas que compoem a curva de Bezier
         bezierLine.startColor = new Color(r,g,b);
         bezierLine.endColor = new Color(r,g,b);
     }
@@ -34,19 +38,30 @@ public class Curve : MonoBehaviour{
     }
 
     public void AddPoint(GameObject point) {
-        polygonalLine.positionCount++;
-        controlPoints.Add(point);
+        polygonalLine.positionCount++; //Abre espaço para mais uma linha na poligonal
+        controlPoints.Add(point); //Adiciona o objeto do ponto para a lista de pontos de controle 
     }
 
     private void Update() {
+        //Se houerem 2 ou mais pontos de controle, faz com que uma linha seja criada entre eles
         if (controlPoints.Count >= 2) {
+            //Para cada ponto ...
             for (int i = 0; i < controlPoints.Count; i++) {
+                //Cria uma linha do último ponto até o atual
                 polygonalLine.SetPosition(i, controlPoints[i].transform.position);
             }
         }
+
+        //Se houverem 3 ou mais pontos de controle, desenha a curva
         if (controlPoints.Count >= 3) {
+            //Usa DeCastlejau para pegar a lista de pontos da curva
             List<Vector2> pointsOnCurve = DeCastlejau();
+            //Faz o numero de pontos da linha que une os pontos da curva
+            //ser o mesmo que os computados no algoritmo
             bezierLine.positionCount = pointsOnCurve.Count;
+
+            //Dá a cada ponto calculado da cura, um ponto invisível 
+            //na linha que será renderizada
             for (int i = 0; i < pointsOnCurve.Count; i++){
                 bezierLine.SetPosition(i, pointsOnCurve[i]);
             }
@@ -54,6 +69,7 @@ public class Curve : MonoBehaviour{
     }
 
     private List<Vector2> GetControlPointPositions() {
+        //Retorna uma lista com a posição dos pontos de controle
         List<Vector2> controlPointPos = new List<Vector2>();
         for (int i = 0; i < controlPoints.Count; i++) {
             controlPointPos.Add(controlPoints[i].transform.position);

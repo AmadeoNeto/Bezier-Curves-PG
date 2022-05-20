@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
+    //Classe criada para intermediar as operações entre os
+    //outros scripts entre si e entre a GUI
+
     [SerializeField] ScreenRenderer screenRenderer;
     [SerializeField] Text operationText;
     [SerializeField] Text evaluationNumberText;
@@ -11,6 +14,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public Curve currCurve;
 
     public void ChangeOperation(string op){
+        //Função chamada para mudar a operação atual
         if(op == "AddPoint"){
             operation = Operations.AddPoint;
             operationText.text = "Add Point";
@@ -25,7 +29,7 @@ public class GameManager : MonoBehaviour {
         }
         else if(op == "NewCurve"){
             if(currCurve){
-                currCurve.setColor(0,0,0);
+                currCurve.setBezierColor(0,0,0);
             }
             operation = Operations.NewCurve;
             operationText.text = "New Curve";
@@ -50,7 +54,7 @@ public class GameManager : MonoBehaviour {
         int currCurvIndex = curves.IndexOf(currCurve);
 
         if(curves.Count > 1){
-            currCurve.setColor(0,0,0);
+            currCurve.setBezierColor(0,0,0);
             currCurve = curves[(currCurvIndex+1) % curves.Count];
         } else if(curves.Count == 1){
             currCurve = curves[0];
@@ -58,10 +62,9 @@ public class GameManager : MonoBehaviour {
             currCurve = null;
             return;
         }
-        currCurve.setColor(0,232,232);
+        currCurve.setBezierColor(0,232,232);
     }
 
-    //TODO: resolver MissingReference quando clica na tela após deletar a última curva da tela
     public void DeleteCurve(){
         List<Curve> curves = screenRenderer.getCurveList();
         int currCurvIndex = curves.IndexOf(currCurve);
