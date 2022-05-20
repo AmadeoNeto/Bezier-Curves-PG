@@ -4,9 +4,15 @@ using UnityEngine;
 public class Curve : MonoBehaviour{
     List<GameObject> controlPoints  = new List<GameObject>();
     List<GameObject> polygonalLines = new List<GameObject>();
+    GameManager gameManager;
     LineRenderer polygonalLine;
     LineRenderer bezierLine;
     int numeroAvaliacoes = 40;
+
+    bool showControlPoints = true;
+    bool showPolygonal = true;
+    bool showCurve = true;
+
 
     private void Awake() {
         polygonalLine = GetComponent<LineRenderer>();
@@ -20,11 +26,17 @@ public class Curve : MonoBehaviour{
         polygonalLine.startWidth = 0.23f;
         polygonalLine.endWidth = 0.23f;
 
-        //Inicaliza os mesmo valores que os acima mas para as linhas da Curva de Bezier
+        //Inicaliza os mesmo valores que os acima mas para as linhas da Curva de Bezier.
         bezierLine.positionCount = 0;
         bezierLine.startWidth = 0.23f;
         bezierLine.endWidth = 0.23f;
         setBezierColor(0,232,232); //Mudar a cor da da curva
+    }
+
+    private void Start() {
+        //Acha o gamerManager no jogo e o guarda na var.
+        GameObject managerObj = GameObject.FindWithTag("GameController");
+        gameManager = managerObj.GetComponent<GameManager>();
     }
 
     public void setBezierColor(int r, int g, int b){
@@ -42,7 +54,32 @@ public class Curve : MonoBehaviour{
         controlPoints.Add(point); //Adiciona o objeto do ponto para a lista de pontos de controle 
     }
 
+    public void DeletePoint(GameObject point){
+        //Remove o ponto da lista de pontos de controle
+        controlPoints.Remove(point);
+        //Diminui a quantidade de linhas renderizadas
+        polygonalLine.positionCount = controlPoints.Count;
+        //Remove o objeto do ponto excluído da cena
+        Destroy(point);
+    }
+
+    void CheckComponentsVisibility(){
+        showControlPoints = gameManager.showControlPoints;
+        for (int i = 0; i < controlPoints.Count; i++)
+        {
+            controlPoints[i].SetActive(gameManager.showControlPoints); 
+        }
+    
+        showPolygonal = gameManager.showPolygonal;
+        polygonalLine.enabled = gameManager.showPolygonal;
+    
+        showCurve = gameManager.showCurve;
+        bezierLine.enabled = gameManager.showCurve;
+    }
+
     private void Update() {
+        CheckComponentsVisibility();
+
         //Se houerem 2 ou mais pontos de controle, faz com que uma linha seja criada entre eles
         if (controlPoints.Count >= 2) {
             //Para cada ponto ...
@@ -66,6 +103,10 @@ public class Curve : MonoBehaviour{
                 bezierLine.SetPosition(i, pointsOnCurve[i]);
             }
         } 
+        else {
+            //Não deixa a curva ser renderizada
+            bezierLine.positionCount = 0;
+        }
     }
 
     private List<Vector2> GetControlPointPositions() {
@@ -80,15 +121,10 @@ public class Curve : MonoBehaviour{
     private List<Vector2> DeCastlejau(){
         List<Vector2> curvePoints = new List<Vector2>();
         List<Vector2> controlPointPos = GetControlPointPositions();
-        
-        curvePoints.Add(controlPointPos[0]);
-        
+                
         for (int i = 0; i <= numeroAvaliacoes; i++) {
             curvePoints.Add(GetDeCastlejauPoint((float)i/(float)numeroAvaliacoes, controlPointPos));
         }
-
-        curvePoints.Add(controlPointPos[controlPointPos.Count-1]);
-
         return curvePoints;
     }
 

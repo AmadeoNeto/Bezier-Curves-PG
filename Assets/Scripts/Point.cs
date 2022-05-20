@@ -2,11 +2,16 @@ using UnityEngine;
 
 public class Point : MonoBehaviour {
     [SerializeField] GameManager gameManager;
+    Curve curve;
 
     private void Start() {
         //Acha o gamerManager no jogo e o guarda na var.
         GameObject managerObj = GameObject.FindWithTag("GameController");
         gameManager = managerObj.GetComponent<GameManager>();
+    }
+
+    public void SetCurve(Curve curve){
+        this.curve = curve;
     }
 
     private void OnMouseDown() {
@@ -33,6 +38,6 @@ public class Point : MonoBehaviour {
     }
 
     public void DeletePoint(){
-
+        curve.DeletePoint(this.gameObject);
     }
 }

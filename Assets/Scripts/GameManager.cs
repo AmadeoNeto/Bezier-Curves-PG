@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour {
     public Operations operation {get; private set;}
     [HideInInspector] public Curve currCurve;
 
+    public bool showControlPoints = true;
+    public bool showPolygonal = true;
+    public bool showCurve = true;
+
     public void ChangeOperation(string op){
         //Função chamada para mudar a operação atual
         if(op == "AddPoint"){
@@ -78,5 +82,17 @@ public class GameManager : MonoBehaviour {
             currCurve = null;
             ChangeOperation("NewCurve");
         }
+    }
+
+    public void InvertShowControlPoints(){
+        showControlPoints = !showControlPoints;
+    }
+
+    public void InvertShowCurve(){
+        showCurve = !showCurve;
+    }
+
+    public void InvertShowPolygonal(){
+        showPolygonal = !showPolygonal;
     }
 }

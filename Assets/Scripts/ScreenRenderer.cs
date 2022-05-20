@@ -35,6 +35,7 @@ public class ScreenRenderer : MonoBehaviour {
 
             //Adiciona um novo objeto de ponto à curva
             GameObject pointObj = Instantiate(point, mouseWorldPos, Quaternion.identity, gameManager.currCurve.gameObject.transform);
+            pointObj.GetComponent<Point>().SetCurve(gameManager.currCurve);
             gameManager.currCurve.AddPoint(pointObj);
         }
     }
