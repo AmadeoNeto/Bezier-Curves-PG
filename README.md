@@ -3,7 +3,7 @@ Unity project developed to the "Processamento Gráfico" ("Graphics Processing") 
 user create multiple Bézier Curves adding and manipulating it control points.
 
 ## Group
-* [AmadeoNeto](github.com/AmadeoNeto)
-* [douglasventura](github.com/douglasventura)
-* [MatheusPaixaoG](github.com/MatheusPaixaoG)
-* [weslley-batista](github.com/weslley-batista)
+* [AmadeoNeto](https://github.com/AmadeoNeto)
+* [douglasventura](https://github.com/douglasventura)
+* [MatheusPaixaoG](https://github.com/MatheusPaixaoG)
+* [weslley-batista](https://github.com/weslley-batista)
